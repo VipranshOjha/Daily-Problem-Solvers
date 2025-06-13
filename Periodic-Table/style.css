@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    table-layout: fixed;
+    position: relative;
+    z-index: 1;
+}
+
+td {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+    height: 60px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    vertical-align: middle;
+    text-align: center;
+    font-size: 18px;
+    overflow: hidden;
+}
+
+#main-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: -9999;
+}
+
+td:hover {
+    transition: all 0.5s;
+    transform: scale(1.2);
+}
+
+#detailDiv {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Colors */
+.alkali-metal { 
+    background-color: #FF6F61; /* Red-Orange */
+}
+
+.alkaline-earth-metal { 
+    background-color: #FFD966; /* Yellow */
+}
+
+.transition-metal { 
+    background-color: #40C4FF; /* Bright Blue */
+}
+
+.post-transition-metal { 
+    background-color: #A1887F; /* Taupe */
+}
+
+.metalloid { 
+    background-color: #7E57C2; /* Purple */
+}
+
+.nonmetal { 
+    background-color: #66BB6A; /* Green */
+}
+
+.halogen { 
+    background-color: #FFB300; /* Orange */
+}
+
+.noble-gas { 
+    background-color: #BA68C8; /* Lavender */
+}
+
+.undefined { 
+    background-color: #B0BEC5; /* Gray */
+}
+
+.lanthanides { 
+    background-color: #F06292; /* Pink */
+}
+
+.actinides { 
+    background-color: #00897B; /* Teal */
+}
+
+.alkali-metal,
+.alkaline-earth-metal,
+.transition-metal,
+.post-transition-metal,
+.metalloid,
+.nonmetal,
+.halogen,
+.noble-gas,
+.undefined,
+.lanthanides,
+.actinides {
+    border: 1px solid #000;
+}
+
+#legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 32px 0 16px 0;
+    font-size: 18px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 16px;
+    color: #fff;
+    font-weight: bold;
+    margin: 4px;
+    border: 2px solid #222;
+    box-shadow: 1px 1px 4px #0002;
+    font-size: 16px;
+}
+
+.legend-item.alkali-metal { background-color: #FF6F61; }
+.legend-item.alkaline-earth-metal { background-color: #FFD966; color: #222; }
+.legend-item.transition-metal { background-color: #40C4FF; color: #222; }
+.legend-item.post-transition-metal { background-color: #A1887F; }
+.legend-item.metalloid { background-color: #7E57C2; }
+.legend-item.nonmetal { background-color: #66BB6A; }
+.legend-item.halogen { background-color: #FFB300; color: #222; }
+.legend-item.noble-gas { background-color: #BA68C8; }
+.legend-item.lanthanides { background-color: #F06292; }
+.legend-item.actinides { background-color: #00897B; }
+.legend-item.undefined { background-color: #B0BEC5; color: #222; }
