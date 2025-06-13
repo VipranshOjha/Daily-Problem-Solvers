@@ -1,6 +1,6 @@
 # Daily-Problem-Solvers
 
-This repository is a collection of various projects I've developed to address and solve common day-to-day or real-life problems. Each subfolder contains a distinct project.
+This repository is a collection of various projects I've developed to address and solve common day-to-day or real-life problems i faced. Each subfolder contains a distinct project.
 
 ## Projects Included:
 
