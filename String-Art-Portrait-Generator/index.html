@@ -3,635 +3,984 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improved String Art Portrait Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
+    <title>String Art Atelier - Portrait Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css');
-        
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-in-out;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .animate-slide-up {
-            animation: slideUp 0.5s ease-out;
+
+        :root {
+            --primary-warm: #8b4513;
+            --secondary-warm: #d2691e;
+            --accent-copper: #b87333;
+            --neutral-cream: #faf7f2;
+            --neutral-sage: #9caf88;
+            --text-charcoal: #2c2c2c;
+            --text-muted: #6b5b73;
+            --paper-white: #fefcf8;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--neutral-cream) 0%, #f5f1ea 100%);
+            color: var(--text-charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+
+        .serif-heading {
+            font-family: 'Crimson Text', serif;
         }
-        
-        .file-input::-webkit-file-upload-button {
-            visibility: hidden;
-        }
-        
-        .file-input::before {
-            content: 'Choose Portrait Image';
-            color: #4f46e5;
-            display: inline-block;
-            text-align: center;
+
+        /* Unique asymmetrical layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px solid #e0e7ff;
-            border-radius: 9999px;               
-            padding: 10px 20px;
-            outline: none;
-            white-space: nowrap;
-            cursor: pointer;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* Left content area */
+        .content-area {
+            position: relative;
+        }
+
+        /* Artistic header design */
+        .header {
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -40px;
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-copper), transparent);
+            transform: rotate(-8deg);
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 600;
-            font-size: 14px;
+            color: var(--primary-warm);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            max-width: 600px;
+            margin-bottom: 24px;
+        }
+
+        .feature-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .badge {
+            background: var(--paper-white);
+            border: 1px solid #e8e1d5;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
-        
-        .file-input:hover::before {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(184, 115, 51, 0.1), transparent);
+            transition: left 0.5s ease;
         }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+
+        .badge:hover::before {
+            left: 100%;
         }
-        
-        .pulse-ring {
-            animation: pulse-ring 2s infinite;
-        }
-        
-        @keyframes pulse-ring {
-            0% { transform: scale(0.33); }
-            40%, 50% { opacity: 1; }
-            100% { opacity: 0; transform: scale(1.33); }
-        }
-        
-        .canvas-container {
-            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
-            border-radius: 20px;
-            padding: 20px;
+
+        /* Sidebar control panel */
+        .control-panel {
+            background: var(--paper-white);
+            border-radius: 24px;
+            padding: 32px;
             box-shadow: 
-                20px 20px 40px rgba(0,0,0,0.1),
-                -20px -20px 40px rgba(255,255,255,0.7);
+                0 10px 40px rgba(139, 69, 19, 0.08),
+                0 2px 8px rgba(139, 69, 19, 0.04);
+            border: 1px solid #f0ede6;
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-warm);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Custom file upload */
+        .upload-area {
+            border: 2px dashed #d4c4b0;
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            background: linear-gradient(135deg, #fafafa 0%, #f8f5f0 100%);
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-copper);
+            background: linear-gradient(135deg, #fcfcfc 0%, #faf7f2 100%);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--secondary-warm);
+            background: linear-gradient(135deg, var(--neutral-cream), #f8f4ed);
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            opacity: 0.6;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+        }
+
+        .upload-text {
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        /* Generate button */
+        .generate-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary-warm) 0%, var(--secondary-warm) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+        }
+
+        .generate-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .generate-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        /* NEW: Display Area for Preview and Results */
+        .display-area {
+            display: none; /* Hidden by default */
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin: 60px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .display-area.visible {
+            display: grid;
+            opacity: 1;
+            transform: translateY(0);
         }
         
-        .stat-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .display-area.results-mode {
+            grid-template-columns: 1fr 1fr;
         }
 
-        /* New class for centering preview image */
-        .center-preview {
-            display: flex;
-            justify-content: center;
+        @media (max-width: 768px) {
+            .display-area.results-mode {
+                grid-template-columns: 1fr;
+            }
         }
 
-        input[type="file"].file-input {
+        .display-card {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid #f0ede6;
+            box-shadow: 0 8px 32px rgba(139, 69, 19, 0.06);
+        }
+
+        #generated-card {
+            display: none; /* Generated card is hidden initially */
+        }
+
+        .card-title {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--primary-warm);
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e8e1d5;
+            margin-bottom: 20px;
+        }
+
+        .display-img {
+            width: 100%;
+            height: auto;
             display: block;
-            margin: 0 auto;
+        }
+
+        /* Loading states */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #e8e1d5;
+            border-top: 3px solid var(--accent-copper);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--primary-warm);
+            margin-bottom: 12px;
+        }
+
+        .loading-detail {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #f0ede6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-copper), var(--secondary-warm));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .canvas-container {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e8e1d5;
+            margin-bottom: 24px;
+            background: white;
+        }
+
+        #string-art-canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--neutral-sage) 0%, #7d8f69 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(156, 175, 136, 0.3);
+        }
+
+        /* Error message */
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        /* Stats display */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: #faf7f2;
+            border-radius: 12px;
+            border: 1px solid #f0ede6;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-warm);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Instructions section */
+        .instructions {
+            margin-top: 80px;
+            background: var(--paper-white);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid #f0ede6;
+            box-shadow: 0 8px 32px rgba(139, 69, 19, 0.06);
+        }
+
+        .instructions-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--primary-warm);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .instructions-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .instruction-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--secondary-warm);
+            margin-bottom: 16px;
+        }
+
+        .instruction-list {
+            list-style: none;
+        }
+
+        .instruction-list li {
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .instruction-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-copper);
+            font-weight: bold;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            margin-bottom: 12px;
+            padding-left: 32px;
+            position: relative;
+            color: var(--text-muted);
+            counter-increment: step-counter;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent-copper);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .control-panel {
+                position: relative;
+                top: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px 16px;
+            }
+            
+            .header {
+                margin-bottom: 40px;
+            }
+            
+            .control-panel {
+                padding: 24px;
+            }
+            
+            .display-card,
+            .instructions {
+                padding: 24px;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 font-sans text-gray-800">
-    <!-- Header -->
-    <div class="flex flex-col items-center p-6">
-        <div class="text-center mb-8">
-            <h1 class="text-5xl font-extrabold gradient-text mb-4 mt-6 leading-[1.2] pb-2">
-                String Art Portrait Generator
-            </h1>                       
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                Transform your portraits into intricate string art patterns using our improved algorithm
-            </p>
-            <div class="flex justify-center items-center space-x-4 mt-4 text-sm text-gray-500">
-                <span class="flex items-center">
-                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    300 Precision Nails
-                </span>
-                <span class="flex items-center">
-                    <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                    Up to 4000 Connections
-                </span>
-                <span class="flex items-center">
-                    <div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                    Greedy Optimization
-                </span>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loading-text">Processing your portrait...</div>
+            <div class="loading-detail" id="loading-detail">Analyzing image and optimizing for string art conversion</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
-        </div>
-
-        <!-- Upload Section -->
-        <div class="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl w-full max-w-2xl mb-8 border border-white/20">
-            <h2 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Upload Your Portrait</h2>
-            
-            <div class="text-center mb-6">
-                <p class="text-gray-600 mb-4">For best results, use high-contrast portraits with clear facial features</p>
-                <div class="grid grid-cols-3 gap-4 text-xs text-gray-500 mb-4">
-                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
-                        <span>High Contrast</span>
+            <div class="stats-display" id="loading-stats" style="margin-top: 20px;">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="current-lines">0</span>
+                        <span class="stat-label">Connections</span>
                     </div>
-                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
-                        <span>Clear Features</span>
+                    <div class="stat-item">
+                        <span class="stat-value">300</span>
+                        <span class="stat-label">Nails</span>
                     </div>
-                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
-                        <span>Good Lighting</span>
+                    <div class="stat-item">
+                        <span class="stat-value" id="progress-percent">0%</span>
+                        <span class="stat-label">Complete</span>
                     </div>
-                </div>
-            </div>
-            
-            <label for="image-upload" class="block text-gray-700 text-sm font-bold mb-4 text-center">
-                Select Portrait Image:
-            </label>
-            <div class="w-full flex justify-center">
-                <label class="relative cursor-pointer">
-                    <input
-                        type="file"
-                        id="image-upload"
-                        accept="image/*"
-                        class="file-input mx-auto text-sm text-gray-900"
-                    />
-                    <span class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-2 text-white text-center">Select Portrait Image</span>
-                </label>
-            </div>            
-            
-            <button
-                id="generate-btn"
-                disabled
-                class="mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300"
-            >
-                Select Image to Generate String Art
-            </button>
-            
-            <p id="error-message" class="text-red-600 mt-4 text-center font-medium hidden bg-red-50 p-4 rounded-lg border border-red-200"></p>
-            
-            <!-- Improved Loading indicator -->
-            <div id="loading" class="hidden mt-8 animate-slide-up">
-                <!-- Processing Status -->
-                <div class="text-center mb-6">
-                    <div class="relative inline-block">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-                        <div class="absolute top-0 left-0 rounded-full h-12 w-12 border-b-2 border-purple-400 opacity-60 pulse-ring"></div>
-                    </div>
-                    <p class="mt-4 text-xl font-semibold text-indigo-700" id="loading-text">Initializing...</p>
-                </div>
-                
-                <!-- Enhanced Progress Bar -->
-                <div class="mb-6">
-                    <div class="w-full bg-gray-200 rounded-full h-6 mb-3 overflow-hidden">
-                        <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-6 rounded-full transition-all duration-500 ease-out relative" style="width: 0%">
-                            <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between text-sm text-gray-600">
-                        <span id="progress-text" class="font-medium">0%</span>
-                        <span id="time-estimate" class="font-medium">Estimated time: 5-8 minutes</span>
-                    </div>
-                </div>
-                
-                <!-- Detailed Progress Information -->
-                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
-                    <div class="text-center mb-4">
-                        <p class="text-lg font-semibold text-indigo-700">
-                            <span id="current-step">Step 1/4:</span> 
-                            <span id="step-description">Preparing image processing...</span>
-                        </p>
-                    </div>
-                    
-                    <!-- Algorithm Stats -->
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="stat-card p-4 rounded-lg text-center">
-                            <div class="text-2xl font-bold text-indigo-600" id="lines-count">0</div>
-                            <div class="text-sm text-gray-600">String Connections</div>
-                        </div>
-                        <div class="stat-card p-4 rounded-lg text-center">
-                            <div class="text-2xl font-bold text-purple-600" id="nails-count">300</div>
-                            <div class="text-sm text-gray-600">Nail Positions</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Current Process Details -->
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600 mb-2" id="process-detail">
-                            The improved algorithm analyzes your image for optimal contrast and circular composition...
-                        </p>
-                        <div class="text-xs text-gray-500 bg-white/50 rounded-lg p-3">
-                            <div id="algorithm-status">Initializing enhanced greedy pathfinding...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Preview + Output Wrapper -->
-        <div id="preview-output-wrapper" class="w-full max-w-6xl mb-12 mx-auto flex flex-col md:flex-row md:space-x-8 center-preview">
-            <!-- Image Preview Section -->
-            <div id="image-preview-container" class="hidden md:w-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20 animate-fade-in">
-                <h2 class="text-2xl font-bold gradient-text mb-4 text-center">Selected Image Preview</h2>
-                
-                <div class="border-2 border-dashed border-indigo-200 rounded-xl overflow-hidden bg-gradient-to-br from-white to-indigo-50 p-4">
-                    <div class="center-preview">
-                        <img id="preview-img" src="" alt="Image Preview" class="w-full h-auto mx-auto rounded-lg shadow-md max-h-96" />
-                    </div>
-                    <p class="text-center text-sm text-gray-500 mt-3">Preview of selected image</p>
-
-                </div>
-            </div>
-
-            <!-- Result Section -->
-            <div id="result-section" class="hidden md:w-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20 animate-fade-in">
-                <h2 class="text-2xl font-bold gradient-text mb-4 text-center">Your String Art</h2>
-
-                <canvas
-                    id="string-art-canvas"
-                    class="mx-auto rounded-xl shadow-lg bg-white"
-                    style="width: 100%; aspect-ratio: 1 / 1;"
-                    width="500"
-                    height="500"
-                ></canvas>
-
-                <div class="flex justify-center mt-4">
-                    <button
-                        id="download-btn"
-                        class="bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300"
-                    >
-                        Download String Art as PNG
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Enhanced Instructions -->
-        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
-            <h3 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Physical Creation Guide</h3>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <h4 class="text-lg font-semibold text-indigo-600 mb-4">Materials Needed:</h4>
-                    <ul class="space-y-2 text-gray-700">
-                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Wooden board (12×12" or 30×30cm minimum)</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>300 small nails or pins</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Single continuous string/thread</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Hammer and ruler/compass</li>
-                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Printed nail position template</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-semibold text-indigo-600 mb-4">Creation Steps:</h4>
-                    <ol class="space-y-2 text-gray-700">
-                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>Mark nail positions using the circular pattern</li>
-                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>Hammer nails leaving 5-7mm exposed</li>
-                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>Start from any nail and follow the connection sequence</li>
-                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>Maintain consistent string tension throughout</li>
-                    </ol>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="main-container">
+        <!-- Left Content Area -->
+        <div class="content-area">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="main-title serif-heading">String Art Atelier</h1>
+                <p class="subtitle">Transform your portraits into intricate string art patterns using advanced algorithmic techniques</p>
+                <div class="feature-badges">
+                    <span class="badge">300 Precision Points</span>
+                    <span class="badge">4000+ Connections</span>
+                    <span class="badge">Greedy Optimization</span>
+                    <span class="badge">High Resolution</span>
+                </div>
+            </header>
+
+            <!-- NEW: Unified Display Area -->
+            <div id="display-area" class="display-area">
+                <!-- Card for Original Image -->
+                <div id="original-card" class="display-card">
+                    <h3 class="card-title serif-heading">Original Portrait</h3>
+                    <div class="image-container">
+                        <img id="original-display" src="" alt="Original portrait" class="display-img">
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="image-width">-</span>
+                            <span class="stat-label">Width</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="image-height">-</span>
+                            <span class="stat-label">Height</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="image-size">-</span>
+                            <span class="stat-label">Size</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card for Generated String Art -->
+                <div id="generated-card" class="display-card">
+                    <h3 class="card-title serif-heading">String Art Pattern</h3>
+                    <div class="canvas-container">
+                        <canvas id="string-art-canvas" width="500" height="500"></canvas>
+                    </div>
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-item">
+                            <span class="stat-value" id="final-nails">300</span>
+                            <span class="stat-label">Nails</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="final-lines">0</span>
+                            <span class="stat-label">Lines</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="generation-time">-</span>
+                            <span class="stat-label">Time</span>
+                        </div>
+                    </div>
+                    <button id="download-btn" class="download-btn">Download Pattern</button>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="instructions">
+                <h3 class="instructions-title serif-heading">Crafting Your Physical String Art</h3>
+                <div class="instructions-grid">
+                    <div class="instruction-section">
+                        <h4>Materials Required</h4>
+                        <ul class="instruction-list">
+                            <li>Wooden board (minimum 12×12 inches)</li>
+                            <li>300 small finishing nails</li>
+                            <li>Single-color cotton or polyester thread</li>
+                            <li>Hammer and measuring tools</li>
+                            <li>Printed nail positioning template</li>
+                            <li>Pencil for marking positions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="instruction-section">
+                        <h4>Assembly Process</h4>
+                        <ol class="step-list">
+                            <li>Transfer nail positions from template to board</li>
+                            <li>Hammer nails leaving 5-7mm exposed</li>
+                            <li>Secure thread to starting nail position</li>
+                            <li>Follow connection sequence maintaining tension</li>
+                            <li>Complete pattern and secure final thread</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Control Panel -->
+        <div class="control-panel">
+            <h2 class="panel-title serif-heading">Create Pattern</h2>
+            
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="image-upload" class="file-input" accept="image/*">
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <div class="upload-text">Select portrait image</div>
+                <div class="upload-hint">Drag & drop or click to browse</div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Optimization Tips</h4>
+                <ul style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">
+                    <li style="margin-bottom: 8px;">• High contrast portraits work best</li>
+                    <li style="margin-bottom: 8px;">• Clear facial features recommended</li>
+                    <li style="margin-bottom: 8px;">• Avoid cluttered backgrounds</li>
+                    <li>• Square aspect ratio preferred</li>
+                </ul>
+            </div>
+
+            <button id="generate-btn" class="generate-btn" disabled>
+                Select Image to Begin
+            </button>
+
+            <div id="error-message" class="error-message"></div>
+        </div>
+    </div>
+
     <script>
-        // Configuration - Updated for improved backend
+        // Configuration
         const BACKEND_API_URL = 'http://127.0.0.1:5000/api/generate-string-art';
         
         // DOM elements
         const imageUpload = document.getElementById('image-upload');
-        const imagePreview = document.getElementById('image-preview');
-        const previewImg = document.getElementById('preview-img');
+        const uploadArea = document.getElementById('upload-area');
         const generateBtn = document.getElementById('generate-btn');
         const errorMessage = document.getElementById('error-message');
-        const loading = document.getElementById('loading');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const timeEstimate = document.getElementById('time-estimate');
+        
+        // Display Area elements
+        const displayArea = document.getElementById('display-area');
+        const originalCard = document.getElementById('original-card');
+        const generatedCard = document.getElementById('generated-card');
+        const originalDisplay = document.getElementById('original-display');
+
+        // Loading Overlay elements
+        const loadingOverlay = document.getElementById('loading-overlay');
         const loadingText = document.getElementById('loading-text');
-        const currentStep = document.getElementById('current-step');
-        const stepDescription = document.getElementById('step-description');
-        const linesCount = document.getElementById('lines-count');
-        const nailsCount = document.getElementById('nails-count');
-        const processDetail = document.getElementById('process-detail');
-        const algorithmStatus = document.getElementById('algorithm-status');
-        const resultSection = document.getElementById('result-section');
+        const loadingDetail = document.getElementById('loading-detail');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const currentLines = document.getElementById('current-lines');
+        
+        // Canvas and Results elements
         const canvas = document.getElementById('string-art-canvas');
+        const downloadBtn = document.getElementById('download-btn');
         const finalNails = document.getElementById('final-nails');
         const finalLines = document.getElementById('final-lines');
         const generationTime = document.getElementById('generation-time');
         
         let selectedFile = null;
         let stringArtData = null;
+
+        // --- Event Listeners ---
+        imageUpload.addEventListener('change', handleFileSelect);
+        generateBtn.addEventListener('click', generateStringArt);
+        downloadBtn.addEventListener('click', downloadCanvas);
         
-        // Handle image selection
-        imageUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            
-            if (file) {
-                selectedFile = file;
-                
-                // Show preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    document.getElementById('image-preview-container').classList.remove('hidden');
-                    document.getElementById('result-section').classList.add('hidden');
-                    
-                    // Add the center-preview class to the wrapper
-                    document.getElementById('preview-output-wrapper').classList.add('center-preview');
-                };
-                reader.readAsDataURL(file);
-                
-                // Enable generate button with improved styling
-                generateBtn.disabled = false;
-                generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer';
-                generateBtn.textContent = 'Generate Improved String Art Pattern';
-                
-                // Hide previous results and errors
-                document.getElementById('result-section').classList.add('hidden');
-                hideError();
-            } else {
-                selectedFile = null;
-                document.getElementById('image-preview-container').classList.add('hidden');
-                generateBtn.disabled = true;
-                generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300';
-                generateBtn.textContent = 'Select Image to Generate String Art';
-            }
+        // Drag and drop listeners
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
         });
         
-        // Convert file to base64
-        function getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = error => reject(error);
-                reader.readAsDataURL(file);
-            });
-        }
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
         
-        // Enhanced progress tracking for improved algorithm
-        function updateProgress(percentage, step, stepDesc, currentLines = null, timeLeft = null, detail = null, algorithmMsg = null) {
-            progressBar.style.width = percentage + '%';
-            progressText.textContent = Math.round(percentage) + '%';
-            currentStep.textContent = step;
-            stepDescription.textContent = stepDesc;
-            
-            if (currentLines !== null) {
-                linesCount.textContent = currentLines;
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
             }
-            
-            if (timeLeft !== null) {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timeEstimate.textContent = `Time remaining: ~${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            if (detail) {
-                processDetail.textContent = detail;
-            }
-            
-            if (algorithmMsg) {
-                algorithmStatus.textContent = algorithmMsg;
-            }
+        });
+
+        // --- Core Functions ---
+
+        function handleFileSelect(event) {
+            handleFile(event.target.files[0]);
         }
-        
-        // Enhanced progress simulation matching the improved backend
-        function simulateProgress() {
-            let progress = 0;
-            let startTime = Date.now();
-            let estimatedTotalTime = 8 * 60 * 1000; // 8 minutes for improved algorithm
-            
-            const progressInterval = setInterval(() => {
-                const elapsed = Date.now() - startTime;
-                const expectedProgress = (elapsed / estimatedTotalTime) * 100;
-                
-                // Smooth progress update
-                if (progress < expectedProgress) {
-                    progress = Math.min(expectedProgress, progress + 0.8);
-                }
-                
-                // Update based on algorithm stages
-                if (progress < 8) {
-                    updateProgress(
-                        progress, 
-                        'Step 1/4:', 
-                        'Enhanced image preprocessing...', 
-                        0,
-                        Math.round((estimatedTotalTime - elapsed) / 1000),
-                        'Applying circular mask and contrast enhancement for optimal string art conversion.',
-                        'Converting to grayscale and applying 2.0x contrast boost...'
-                    );
-                    loadingText.textContent = 'Processing image with improved algorithm...';
-                } else if (progress < 15) {
-                    updateProgress(
-                        progress, 
-                        'Step 2/4:', 
-                        'Generating 300 precision nail positions...', 
-                        0,
-                        Math.round((estimatedTotalTime - elapsed) / 1000),
-                        'Positioning nails around circular perimeter with 30px margin for optimal coverage.',
-                        'Calculating optimal nail spacing for 300 positions...'
-                    );
-                    loadingText.textContent = 'Optimizing nail placement...';
-                } else if (progress < 25) {
-                    updateProgress(
-                        progress, 
-                        'Step 3/4:', 
-                        'Initializing greedy pathfinding...', 
-                        0,
-                        Math.round((estimatedTotalTime - elapsed) / 1000),
-                        'Setting up line caching and Bresenham algorithm for efficient path calculation.',
-                        'Building line lookup table for performance optimization...'
-                    );
-                    loadingText.textContent = 'Preparing optimization engine...';
-                } else if (progress < 92) {
-                    const estimatedLines = Math.floor((progress - 25) / 67 * 4000);
-                    updateProgress(
-                        progress, 
-                        'Step 4/4:', 
-                        'Generating optimal string connections...', 
-                        estimatedLines,
-                        Math.round((estimatedTotalTime - elapsed) / 1000),
-                        'Smart greedy algorithm evaluating each connection for maximum visual impact.',
-                        `Processing line ${estimatedLines}/4000 - Score-based selection active...`
-                    );
-                    loadingText.textContent = 'Finding optimal string paths...';
-                } else {
-                    updateProgress(
-                        progress, 
-                        'Step 4/4:', 
-                        'Finalizing pattern...', 
-                        null,
-                        Math.round((estimatedTotalTime - elapsed) / 1000),
-                        'Completing final optimization and preparing visual output.',
-                        'Pattern generation complete - preparing results...'
-                    );
-                    loadingText.textContent = 'Almost ready!';
-                }
-                
-                // Stop at 92% and wait for actual completion
-                if (progress >= 92) {
-                    clearInterval(progressInterval);
-                }
-            }, 150); // Faster updates for smoother progress
-            
-            return progressInterval;
-        }
-        
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.classList.remove('hidden');
-        }
-        
-        function hideError() {
-            errorMessage.classList.add('hidden');
-        }
-        
-        // Enhanced string art drawing with better visual representation
-        function drawStringArt(data) {
-            const ctx = canvas.getContext('2d');
-            
-            // Clear and prepare canvas with subtle background
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Subtle gradient background
-            const gradient = ctx.createRadialGradient(250, 250, 0, 250, 250, 250);
-            gradient.addColorStop(0, '#ffffff');
-            gradient.addColorStop(1, '#f8fafc');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw string paths with variable opacity based on density
-            ctx.strokeStyle = 'rgba(51, 51, 51, 0.12)'; // More transparent for better layering
-            ctx.lineWidth = 0.4;
-            ctx.lineCap = 'round';
-            
-            // Draw all paths
-            data.paths.forEach((path, index) => {
-                const startNail = data.nails[path.startIndex];
-                const endNail = data.nails[path.endIndex];
-                
-                if (startNail && endNail) {
-                    // Vary opacity slightly for visual depth
-                    const opacity = 0.08 + (index % 5) * 0.02;
-                    ctx.strokeStyle = `rgba(51, 51, 51, ${opacity})`;
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(startNail.x, startNail.y);
-                    ctx.lineTo(endNail.x, endNail.y);
-                    ctx.stroke();
-                }
-            });
-            
-            // Draw nails with better visibility
-            ctx.fillStyle = '#374151';
-            data.nails.forEach(nail => {
-                ctx.beginPath();
-                ctx.arc(nail.x, nail.y, 1.2, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            
-            // Optional: Add a subtle border
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(250, 250, 245, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-        
-        // Generate string art with enhanced error handling
-        async function generateStringArt() {
-            if (!selectedFile) {
-                showError('Please select an image first.');
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showError('Please select a valid image file.');
                 return;
             }
-            
-            // Show loading state
-            loading.classList.remove('hidden');
-            generateBtn.disabled = true;
-            generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300';
-            hideError();
-            document.getElementById('result-section').classList.add('hidden');
 
-            // Start enhanced progress simulation
-            const progressInterval = simulateProgress();
-            const startTime = Date.now();
+            selectedFile = file;
             
-            try {
-                // Convert image to base64
-                const base64ImageData = await getBase64(selectedFile);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalDisplay.src = e.target.result;
                 
-                const payload = {
-                    base64Image: base64ImageData,
-                    mimeType: selectedFile.type,
+                // --- NEW LAYOUT LOGIC ---
+                // 1. Reset layout to preview-only mode
+                displayArea.classList.remove('results-mode');
+                generatedCard.style.display = 'none';
+
+                // 2. Make the display area visible
+                displayArea.classList.add('visible');
+                
+                // Update image stats
+                const img = new Image();
+                img.onload = function() {
+                    document.getElementById('image-width').textContent = this.naturalWidth + 'px';
+                    document.getElementById('image-height').textContent = this.naturalHeight + 'px';
+                    document.getElementById('image-size').textContent = formatFileSize(file.size);
                 };
+                img.src = e.target.result;
                 
-                // Make API call to improved backend
+                // Enable generate button
+                generateBtn.disabled = false;
+                generateBtn.textContent = 'Generate String Art Pattern';
+                hideError();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function generateStringArt() {
+            if (!selectedFile) {
+                showError("Please select an image first.");
+                return;
+            }
+
+            showLoading();
+            hideError();
+            let progressInterval = simulateProgress();
+            
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+            try {
+                const startTime = Date.now();
                 const response = await fetch(BACKEND_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
+                    body: formData,
                 });
-                
+
+                clearInterval(progressInterval); // Stop simulation
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`Backend error: ${errorData.error || 'Unknown error'}`);
+                    const errorData = await response.json().catch(() => ({ error: 'An unknown server error occurred.' }));
+                    throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
                 }
 
-                // Parse response
-                const result = await response.json();
-
-                clearInterval(progressInterval);
-                loading.classList.add('hidden');
-
-                stringArtData = result;
-
-                // Draw canvas
-                drawStringArt(stringArtData);
-
-                // Update UI with stats
-                finalNails.textContent = stringArtData.nails.length;
-                finalLines.textContent = stringArtData.paths.length;
-                const generationSeconds = Math.round((Date.now() - startTime) / 1000);
-                generationTime.textContent = `${generationSeconds}s`;
-
-                // Check if resultMessage exists before setting textContent
-                if (resultMessage) {
-                    resultMessage.textContent = result.message || "String art generated successfully!";
-                }
-
-                // Show result section
-                resultSection.classList.remove('hidden');
+                stringArtData = await response.json();
                 
-                // Move preview to left
-                document.getElementById('preview-output-wrapper').classList.remove('center-preview');
+                const endTime = Date.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2) + 's';
+
+                updateProgress(100, 'Pattern Generated!', 'Rendering the final artwork.', stringArtData.lines.length);
+
+                setTimeout(() => {
+                    hideLoading();
+                    renderResults(duration);
+                }, 500);
 
             } catch (error) {
+                console.error('Generation Error:', error);
                 clearInterval(progressInterval);
-                loading.classList.add('hidden');
-                console.error(error);
-                showError(error.message || 'An error occurred while generating string art.');
+                hideLoading();
+                showError(error.message || 'Failed to generate pattern. Please try again.');
+            } finally {
+                generateBtn.disabled = false;
             }
         }
 
-        // Attach event to button
-        generateBtn.addEventListener('click', generateStringArt);
-    </script>
-    <!-- Download canvas as PNG -->
-    <script>
-        // Download canvas as PNG
-        document.getElementById('download-btn').addEventListener('click', () => {
+        function renderResults(duration) {
+            if (!stringArtData) return;
+
+            // Update final stats
+            finalLines.textContent = stringArtData.lines.length;
+            finalNails.textContent = stringArtData.nails.length;
+            generationTime.textContent = duration;
+
+            // Draw on canvas
+            const ctx = canvas.getContext('2d');
+            const { nails, lines } = stringArtData;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.lineWidth = 0.5;
+
+            ctx.beginPath();
+            for (const line of lines) {
+                const startNail = nails[line[0]];
+                const endNail = nails[line[1]];
+                ctx.moveTo(startNail[0], startNail[1]);
+                ctx.lineTo(endNail[0], endNail[1]);
+            }
+            ctx.stroke();
+
+            // --- NEW LAYOUT LOGIC ---
+            // 3. Show the generated card and switch to results mode
+            generatedCard.style.display = 'block';
+            displayArea.classList.add('results-mode');
+            
+            generatedCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function downloadCanvas() {
             const link = document.createElement('a');
-            link.download = 'string_art_output.png';
+            link.download = 'string-art-pattern.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
-        });
+        }
+
+        // --- UI & Utility Functions ---
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function hideError() {
+            errorMessage.style.display = 'none';
+        }
+
+        function showLoading() {
+            loadingOverlay.style.display = 'flex';
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'Generating...';
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+            generateBtn.disabled = false;
+            generateBtn.textContent = 'Generate String Art Pattern';
+        }
+        
+        function updateProgress(percent, text, detail, lines) {
+            progressBar.style.width = percent + '%';
+            progressPercent.textContent = Math.round(percent) + '%';
+            loadingText.textContent = text;
+            loadingDetail.textContent = detail;
+            if (lines !== undefined && lines !== null) {
+                currentLines.textContent = lines;
+            }
+        }
+
+        function simulateProgress() {
+            let progress = 0;
+            const totalDuration = 8 * 60 * 1000; // 8 minutes in milliseconds
+            const intervalTime = 200; // Update every 200ms
+            const maxLines = 4000;
+            const progressIncrement = 100 / (totalDuration / intervalTime);
+
+            const interval = setInterval(() => {
+                progress += progressIncrement;
+
+                if (progress >= 100) {
+                    progress = 100;
+                }
+
+                let estimatedLines = 0;
+                
+                if (progress < 5) {
+                    updateProgress(progress, 'Preprocessing image...', 'Applying contrast enhancement and circular masking', 0);
+                } else if (progress < 10) {
+                    updateProgress(progress, 'Positioning nails...', 'Calculating 300 nail positions around the perimeter', 0);
+                } else if (progress < 15) {
+                    updateProgress(progress, 'Initializing algorithm...', 'Setting up greedy pathfinding optimization', 0);
+                } else if (progress < 98) {
+                    const generationPhaseProgress = (progress - 15) / (98 - 15);
+                    estimatedLines = Math.floor(generationPhaseProgress * maxLines);
+                    updateProgress(progress, 'Generating connections...', `Smart algorithm finding optimal string paths`, estimatedLines);
+                } else {
+                    updateProgress(progress, 'Finalizing pattern...', 'Completing optimization and preparing output', maxLines);
+                }
+                
+                if (progress >= 100) {
+                     setTimeout(() => clearInterval(interval), totalDuration + 5000);
+                }
+
+            }, intervalTime);
+            
+            return interval;
+        }
     </script>
 </body>
 </html>
