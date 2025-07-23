@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>String Art Portrait Generator</title>
+    <title>Improved String Art Portrait Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
     <style>
         @import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css');
         
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
         }
         
         @keyframes fadeIn {
@@ -17,128 +21,284 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         .file-input::-webkit-file-upload-button {
             visibility: hidden;
         }
         
         .file-input::before {
-            content: 'Choose File';
+            content: 'Choose Portrait Image';
             color: #4f46e5;
             display: inline-block;
-            background: #f0f9ff;
-            border: 1px solid #e0e7ff;
-            border-radius: 20px;
-            padding: 8px 16px;
+            text-align: center;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #e0e7ff;
+            border-radius: 9999px;               
+            padding: 10px 20px;
             outline: none;
             white-space: nowrap;
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
+            transition: all 0.3s ease;
         }
         
         .file-input:hover::before {
-            background: #e0f2fe;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); }
+            40%, 50% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.33); }
+        }
+        
+        .canvas-container {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 
+                20px 20px 40px rgba(0,0,0,0.1),
+                -20px -20px 40px rgba(255,255,255,0.7);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* New class for centering preview image */
+        .center-preview {
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="file"].file-input {
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-100 font-sans text-gray-800">
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 font-sans text-gray-800">
     <!-- Header -->
-    <div class="flex flex-col items-center p-4">
-        <h1 class="text-4xl font-extrabold text-indigo-700 mb-8 mt-4 rounded-lg p-3 shadow-lg bg-white">
-            String Art Portrait Generator
-        </h1>
+    <div class="flex flex-col items-center p-6">
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-extrabold gradient-text mb-4 mt-6 leading-[1.2] pb-2">
+                String Art Portrait Generator
+            </h1>                       
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Transform your portraits into intricate string art patterns using our improved algorithm
+            </p>
+            <div class="flex justify-center items-center space-x-4 mt-4 text-sm text-gray-500">
+                <span class="flex items-center">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    300 Precision Nails
+                </span>
+                <span class="flex items-center">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    Up to 4000 Connections
+                </span>
+                <span class="flex items-center">
+                    <div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                    Greedy Optimization
+                </span>
+            </div>
+        </div>
 
         <!-- Upload Section -->
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl mb-8 border-t-4 border-indigo-500">
-            <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Upload Your Portrait Image</h2>
-            <label for="image-upload" class="block text-gray-700 text-sm font-bold mb-2">
-                Choose a portrait image to generate string art:
-            </label>
-            <input
-                type="file"
-                id="image-upload"
-                accept="image/*"
-                class="file-input block w-full text-sm text-gray-900 cursor-pointer"
-            />
+        <div class="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl w-full max-w-2xl mb-8 border border-white/20">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Upload Your Portrait</h2>
             
-            <div id="image-preview" class="mt-6 hidden border-2 border-gray-200 rounded-lg overflow-hidden shadow-inner">
-                <img id="preview-img" src="" alt="Image Preview" class="max-w-full h-auto mx-auto rounded-md" />
+            <div class="text-center mb-6">
+                <p class="text-gray-600 mb-4">For best results, use high-contrast portraits with clear facial features</p>
+                <div class="grid grid-cols-3 gap-4 text-xs text-gray-500 mb-4">
+                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
+                        <span>High Contrast</span>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
+                        <span>Clear Features</span>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-2">✓</div>
+                        <span>Good Lighting</span>
+                    </div>
+                </div>
             </div>
+            
+            <label for="image-upload" class="block text-gray-700 text-sm font-bold mb-4 text-center">
+                Select Portrait Image:
+            </label>
+            <div class="w-full flex justify-center">
+                <label class="relative cursor-pointer">
+                    <input
+                        type="file"
+                        id="image-upload"
+                        accept="image/*"
+                        class="file-input mx-auto text-sm text-gray-900"
+                    />
+                    <span class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-2 text-white text-center">Select Portrait Image</span>
+                </label>
+            </div>            
             
             <button
                 id="generate-btn"
                 disabled
-                class="mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-300 text-indigo-100 cursor-not-allowed transition-all duration-300"
+                class="mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300"
             >
-                Generate String Art Pattern
+                Select Image to Generate String Art
             </button>
             
-            <p id="error-message" class="text-red-600 mt-4 text-center font-medium hidden"></p>
+            <p id="error-message" class="text-red-600 mt-4 text-center font-medium hidden bg-red-50 p-4 rounded-lg border border-red-200"></p>
             
-            <!-- Loading indicator with progress bar -->
-            <div id="loading" class="hidden mt-6">
-                <div class="text-center mb-4">
-                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-                    <p class="mt-2 text-indigo-600 font-semibold" id="loading-text">Preparing image...</p>
+            <!-- Improved Loading indicator -->
+            <div id="loading" class="hidden mt-8 animate-slide-up">
+                <!-- Processing Status -->
+                <div class="text-center mb-6">
+                    <div class="relative inline-block">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                        <div class="absolute top-0 left-0 rounded-full h-12 w-12 border-b-2 border-purple-400 opacity-60 pulse-ring"></div>
+                    </div>
+                    <p class="mt-4 text-xl font-semibold text-indigo-700" id="loading-text">Initializing...</p>
                 </div>
                 
-                <!-- Progress Bar -->
-                <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
-                    <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-4 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                <!-- Enhanced Progress Bar -->
+                <div class="mb-6">
+                    <div class="w-full bg-gray-200 rounded-full h-6 mb-3 overflow-hidden">
+                        <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-6 rounded-full transition-all duration-500 ease-out relative" style="width: 0%">
+                            <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span id="progress-text" class="font-medium">0%</span>
+                        <span id="time-estimate" class="font-medium">Estimated time: 5-8 minutes</span>
+                    </div>
                 </div>
                 
-                <div class="flex justify-between text-sm text-gray-600">
-                    <span id="progress-text">0%</span>
-                    <span id="time-estimate">Estimated time: 3-4 minutes</span>
-                </div>
-                
-                <!-- Progress Details -->
-                <div class="mt-3 text-center">
-                    <p class="text-sm text-gray-500">
-                        <span id="current-step">Step 1/3:</span> 
-                        <span id="step-description">Processing your image...</span>
-                    </p>
-                    <p class="text-xs text-gray-400 mt-1" id="lines-generated">Lines generated: 0 / 8000</p>
+                <!-- Detailed Progress Information -->
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
+                    <div class="text-center mb-4">
+                        <p class="text-lg font-semibold text-indigo-700">
+                            <span id="current-step">Step 1/4:</span> 
+                            <span id="step-description">Preparing image processing...</span>
+                        </p>
+                    </div>
+                    
+                    <!-- Algorithm Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="stat-card p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-indigo-600" id="lines-count">0</div>
+                            <div class="text-sm text-gray-600">String Connections</div>
+                        </div>
+                        <div class="stat-card p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="nails-count">300</div>
+                            <div class="text-sm text-gray-600">Nail Positions</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Current Process Details -->
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600 mb-2" id="process-detail">
+                            The improved algorithm analyzes your image for optimal contrast and circular composition...
+                        </p>
+                        <div class="text-xs text-gray-500 bg-white/50 rounded-lg p-3">
+                            <div id="algorithm-status">Initializing enhanced greedy pathfinding...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- String Art Canvas Display Section -->
-        <div id="result-section" class="hidden bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl border-t-4 border-green-500 animate-fade-in">
-            <h2 class="text-2xl font-semibold text-green-700 mb-4 text-center">Generated String Art Pattern</h2>
-            <div class="flex justify-center">
+        <!-- Preview + Output Wrapper -->
+        <div id="preview-output-wrapper" class="w-full max-w-6xl mb-12 mx-auto flex flex-col md:flex-row md:space-x-8 center-preview">
+            <!-- Image Preview Section -->
+            <div id="image-preview-container" class="hidden md:w-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20 animate-fade-in">
+                <h2 class="text-2xl font-bold gradient-text mb-4 text-center">Selected Image Preview</h2>
+                
+                <div class="border-2 border-dashed border-indigo-200 rounded-xl overflow-hidden bg-gradient-to-br from-white to-indigo-50 p-4">
+                    <div class="center-preview">
+                        <img id="preview-img" src="" alt="Image Preview" class="w-full h-auto mx-auto rounded-lg shadow-md max-h-96" />
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-3">Preview of selected image</p>
+
+                </div>
+            </div>
+
+            <!-- Result Section -->
+            <div id="result-section" class="hidden md:w-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20 animate-fade-in">
+                <h2 class="text-2xl font-bold gradient-text mb-4 text-center">Your String Art</h2>
+
                 <canvas
                     id="string-art-canvas"
-                    class="border-2 border-gray-300 rounded-lg shadow-md bg-white"
-                    style="max-width: 500px; width: 100%; height: auto; aspect-ratio: 1 / 1;"
+                    class="mx-auto rounded-xl shadow-lg bg-white"
+                    style="width: 100%; aspect-ratio: 1 / 1;"
                     width="500"
                     height="500"
                 ></canvas>
+
+                <div class="flex justify-center mt-4">
+                    <button
+                        id="download-btn"
+                        class="bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:scale-105 transform transition-all duration-300"
+                    >
+                        Download String Art as PNG
+                    </button>
+                </div>
             </div>
+        </div>
+
+        <!-- Enhanced Instructions -->
+        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
+            <h3 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Physical Creation Guide</h3>
             
-            <p id="result-message" class="mt-4 text-gray-700 text-center italic"></p>
-            
-            <div class="mt-6 text-center">
-                <h3 class="text-xl font-semibold text-indigo-600 mb-2">How to Recreate This:</h3>
-                <p class="text-gray-700 mb-2">
-                    The pattern above shows the connections. You'll need to:
-                </p>
-                <ol class="list-decimal list-inside text-left text-gray-700 space-y-2 max-w-lg mx-auto">
-                    <li>Prepare a wooden board (e.g., 12x12 inches or 30x30 cm).</li>
-                    <li>Mark the nail positions precisely using the coordinates (scaled to your board size).</li>
-                    <li>Hammer the nails into the board at these marked positions.</li>
-                    <li>Using a single continuous string, follow the paths, connecting the nails in the specified order.</li>
-                    <li>Experiment with string thickness and tension to achieve desired visual effects.</li>
-                </ol>
-                <p class="mt-4 text-gray-600 text-sm">
-                    *This is a visual representation. The actual number of nails and lines for a physical piece will depend on the desired detail and board size.*
-                </p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold text-indigo-600 mb-4">Materials Needed:</h4>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Wooden board (12×12" or 30×30cm minimum)</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>300 small nails or pins</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Single continuous string/thread</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Hammer and ruler/compass</li>
+                        <li class="flex items-center"><span class="w-2 h-2 bg-indigo-400 rounded-full mr-3"></span>Printed nail position template</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-indigo-600 mb-4">Creation Steps:</h4>
+                    <ol class="space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>Mark nail positions using the circular pattern</li>
+                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>Hammer nails leaving 5-7mm exposed</li>
+                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>Start from any nail and follow the connection sequence</li>
+                        <li class="flex items-start"><span class="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>Maintain consistent string tension throughout</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Configuration
+        // Configuration - Updated for improved backend
         const BACKEND_API_URL = 'http://127.0.0.1:5000/api/generate-string-art';
         
         // DOM elements
@@ -154,10 +314,15 @@
         const loadingText = document.getElementById('loading-text');
         const currentStep = document.getElementById('current-step');
         const stepDescription = document.getElementById('step-description');
-        const linesGenerated = document.getElementById('lines-generated');
+        const linesCount = document.getElementById('lines-count');
+        const nailsCount = document.getElementById('nails-count');
+        const processDetail = document.getElementById('process-detail');
+        const algorithmStatus = document.getElementById('algorithm-status');
         const resultSection = document.getElementById('result-section');
         const canvas = document.getElementById('string-art-canvas');
-        const resultMessage = document.getElementById('result-message');
+        const finalNails = document.getElementById('final-nails');
+        const finalLines = document.getElementById('final-lines');
+        const generationTime = document.getElementById('generation-time');
         
         let selectedFile = null;
         let stringArtData = null;
@@ -173,23 +338,28 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
-                    imagePreview.classList.remove('hidden');
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                    document.getElementById('result-section').classList.add('hidden');
+                    
+                    // Add the center-preview class to the wrapper
+                    document.getElementById('preview-output-wrapper').classList.add('center-preview');
                 };
                 reader.readAsDataURL(file);
                 
-                // Enable generate button
+                // Enable generate button with improved styling
                 generateBtn.disabled = false;
-                generateBtn.className = 'mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer';
-                generateBtn.textContent = 'Generate String Art Pattern';
+                generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer';
+                generateBtn.textContent = 'Generate Improved String Art Pattern';
                 
                 // Hide previous results and errors
-                resultSection.classList.add('hidden');
+                document.getElementById('result-section').classList.add('hidden');
                 hideError();
             } else {
                 selectedFile = null;
-                imagePreview.classList.add('hidden');
+                document.getElementById('image-preview-container').classList.add('hidden');
                 generateBtn.disabled = true;
-                generateBtn.className = 'mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-300 text-indigo-100 cursor-not-allowed transition-all duration-300';
+                generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300';
+                generateBtn.textContent = 'Select Image to Generate String Art';
             }
         });
         
@@ -203,15 +373,15 @@
             });
         }
         
-        // Update progress bar
-        function updateProgress(percentage, step, stepDesc, linesCount = null, timeLeft = null) {
+        // Enhanced progress tracking for improved algorithm
+        function updateProgress(percentage, step, stepDesc, currentLines = null, timeLeft = null, detail = null, algorithmMsg = null) {
             progressBar.style.width = percentage + '%';
             progressText.textContent = Math.round(percentage) + '%';
             currentStep.textContent = step;
             stepDescription.textContent = stepDesc;
             
-            if (linesCount !== null) {
-                linesGenerated.textContent = `Lines generated: ${linesCount} / 8000`;
+            if (currentLines !== null) {
+                linesCount.textContent = currentLines;
             }
             
             if (timeLeft !== null) {
@@ -219,93 +389,161 @@
                 const seconds = timeLeft % 60;
                 timeEstimate.textContent = `Time remaining: ~${minutes}:${seconds.toString().padStart(2, '0')}`;
             }
+            
+            if (detail) {
+                processDetail.textContent = detail;
+            }
+            
+            if (algorithmMsg) {
+                algorithmStatus.textContent = algorithmMsg;
+            }
         }
         
-        // Simulate progress for long-running process
+        // Enhanced progress simulation matching the improved backend
         function simulateProgress() {
             let progress = 0;
             let startTime = Date.now();
-            let estimatedTotalTime = 4 * 60 * 1000; // 4 minutes in milliseconds
+            let estimatedTotalTime = 8 * 60 * 1000; // 8 minutes for improved algorithm
             
             const progressInterval = setInterval(() => {
                 const elapsed = Date.now() - startTime;
                 const expectedProgress = (elapsed / estimatedTotalTime) * 100;
                 
-                // Smooth progress update - don't jump too quickly
+                // Smooth progress update
                 if (progress < expectedProgress) {
-                    progress = Math.min(expectedProgress, progress + 1);
+                    progress = Math.min(expectedProgress, progress + 0.8);
                 }
                 
-                // Update progress based on stage
-                if (progress < 5) {
-                    updateProgress(progress, 'Step 1/3:', 'Processing your image...', null, Math.round((estimatedTotalTime - elapsed) / 1000));
-                    loadingText.textContent = 'Analyzing image features...';
-                } else if (progress < 10) {
-                    updateProgress(progress, 'Step 2/3:', 'Generating nail positions...', null, Math.round((estimatedTotalTime - elapsed) / 1000));
-                    loadingText.textContent = 'Placing nails around perimeter...';
-                } else if (progress < 95) {
-                    const estimatedLines = Math.floor((progress - 10) / 85 * 8000);
-                    updateProgress(progress, 'Step 3/3:', 'Generating string connections...', estimatedLines, Math.round((estimatedTotalTime - elapsed) / 1000));
+                // Update based on algorithm stages
+                if (progress < 8) {
+                    updateProgress(
+                        progress, 
+                        'Step 1/4:', 
+                        'Enhanced image preprocessing...', 
+                        0,
+                        Math.round((estimatedTotalTime - elapsed) / 1000),
+                        'Applying circular mask and contrast enhancement for optimal string art conversion.',
+                        'Converting to grayscale and applying 2.0x contrast boost...'
+                    );
+                    loadingText.textContent = 'Processing image with improved algorithm...';
+                } else if (progress < 15) {
+                    updateProgress(
+                        progress, 
+                        'Step 2/4:', 
+                        'Generating 300 precision nail positions...', 
+                        0,
+                        Math.round((estimatedTotalTime - elapsed) / 1000),
+                        'Positioning nails around circular perimeter with 30px margin for optimal coverage.',
+                        'Calculating optimal nail spacing for 300 positions...'
+                    );
+                    loadingText.textContent = 'Optimizing nail placement...';
+                } else if (progress < 25) {
+                    updateProgress(
+                        progress, 
+                        'Step 3/4:', 
+                        'Initializing greedy pathfinding...', 
+                        0,
+                        Math.round((estimatedTotalTime - elapsed) / 1000),
+                        'Setting up line caching and Bresenham algorithm for efficient path calculation.',
+                        'Building line lookup table for performance optimization...'
+                    );
+                    loadingText.textContent = 'Preparing optimization engine...';
+                } else if (progress < 92) {
+                    const estimatedLines = Math.floor((progress - 25) / 67 * 4000);
+                    updateProgress(
+                        progress, 
+                        'Step 4/4:', 
+                        'Generating optimal string connections...', 
+                        estimatedLines,
+                        Math.round((estimatedTotalTime - elapsed) / 1000),
+                        'Smart greedy algorithm evaluating each connection for maximum visual impact.',
+                        `Processing line ${estimatedLines}/4000 - Score-based selection active...`
+                    );
                     loadingText.textContent = 'Finding optimal string paths...';
                 } else {
-                    updateProgress(progress, 'Step 3/3:', 'Finalizing pattern...', null, Math.round((estimatedTotalTime - elapsed) / 1000));
-                    loadingText.textContent = 'Almost done...';
+                    updateProgress(
+                        progress, 
+                        'Step 4/4:', 
+                        'Finalizing pattern...', 
+                        null,
+                        Math.round((estimatedTotalTime - elapsed) / 1000),
+                        'Completing final optimization and preparing visual output.',
+                        'Pattern generation complete - preparing results...'
+                    );
+                    loadingText.textContent = 'Almost ready!';
                 }
                 
-                // Stop at 95% and wait for actual completion
-                if (progress >= 95) {
+                // Stop at 92% and wait for actual completion
+                if (progress >= 92) {
                     clearInterval(progressInterval);
                 }
-            }, 200); // Update every 200ms
+            }, 150); // Faster updates for smoother progress
             
             return progressInterval;
         }
+        
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.classList.remove('hidden');
         }
         
-        // Hide error message
         function hideError() {
             errorMessage.classList.add('hidden');
         }
         
-        // Draw string art on canvas
+        // Enhanced string art drawing with better visual representation
         function drawStringArt(data) {
             const ctx = canvas.getContext('2d');
-            const canvasSize = 500;
             
-            // Clear canvas
+            // Clear and prepare canvas with subtle background
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#f8f8f8';
+            
+            // Subtle gradient background
+            const gradient = ctx.createRadialGradient(250, 250, 0, 250, 250, 250);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(1, '#f8fafc');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Draw nails (small dots)
-            ctx.fillStyle = '#333';
-            data.nails.forEach(nail => {
-                ctx.beginPath();
-                ctx.arc(nail.x, nail.y, 1, 0, Math.PI * 2);
-                ctx.fill();
-            });
+            // Draw string paths with variable opacity based on density
+            ctx.strokeStyle = 'rgba(51, 51, 51, 0.12)'; // More transparent for better layering
+            ctx.lineWidth = 0.4;
+            ctx.lineCap = 'round';
             
-            // Draw string paths
-            ctx.strokeStyle = 'rgba(51, 51, 51, 0.8)';
-            ctx.lineWidth = 0.5;
-            
-            data.paths.forEach(path => {
+            // Draw all paths
+            data.paths.forEach((path, index) => {
                 const startNail = data.nails[path.startIndex];
                 const endNail = data.nails[path.endIndex];
                 
                 if (startNail && endNail) {
+                    // Vary opacity slightly for visual depth
+                    const opacity = 0.08 + (index % 5) * 0.02;
+                    ctx.strokeStyle = `rgba(51, 51, 51, ${opacity})`;
+                    
                     ctx.beginPath();
                     ctx.moveTo(startNail.x, startNail.y);
                     ctx.lineTo(endNail.x, endNail.y);
                     ctx.stroke();
                 }
             });
+            
+            // Draw nails with better visibility
+            ctx.fillStyle = '#374151';
+            data.nails.forEach(nail => {
+                ctx.beginPath();
+                ctx.arc(nail.x, nail.y, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Optional: Add a subtle border
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(250, 250, 245, 0, Math.PI * 2);
+            ctx.stroke();
         }
         
-        // Generate string art
+        // Generate string art with enhanced error handling
         async function generateStringArt() {
             if (!selectedFile) {
                 showError('Please select an image first.');
@@ -315,12 +553,13 @@
             // Show loading state
             loading.classList.remove('hidden');
             generateBtn.disabled = true;
-            generateBtn.className = 'mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-300 text-indigo-100 cursor-not-allowed transition-all duration-300';
+            generateBtn.className = 'mt-8 w-full py-4 px-6 rounded-full text-lg font-bold bg-gray-300 text-gray-500 cursor-not-allowed transition-all duration-300';
             hideError();
-            resultSection.classList.add('hidden');
-            
-            // Start progress simulation
+            document.getElementById('result-section').classList.add('hidden');
+
+            // Start enhanced progress simulation
             const progressInterval = simulateProgress();
+            const startTime = Date.now();
             
             try {
                 // Convert image to base64
@@ -331,7 +570,7 @@
                     mimeType: selectedFile.type,
                 };
                 
-                // Make API call
+                // Make API call to improved backend
                 const response = await fetch(BACKEND_API_URL, {
                     method: 'POST',
                     headers: {
@@ -342,48 +581,57 @@
                 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`Backend API error: ${errorData.error || response.statusText}`);
+                    throw new Error(`Backend error: ${errorData.error || 'Unknown error'}`);
                 }
-                
+
+                // Parse response
                 const result = await response.json();
-                stringArtData = result;
-                
-                // Complete the progress bar
+
                 clearInterval(progressInterval);
-                updateProgress(100, 'Complete!', 'String art pattern generated successfully!', result.paths.length);
-                loadingText.textContent = 'Processing complete!';
-                
-                // Small delay to show completion
-                setTimeout(() => {
-                    // Draw the result
-                    drawStringArt(result);
-                    
-                    // Show result section
-                    if (result.message) {
-                        resultMessage.textContent = result.message;
-                    }
-                    resultSection.classList.remove('hidden');
-                    
-                    // Hide loading
-                    loading.classList.add('hidden');
-                    generateBtn.disabled = false;
-                    generateBtn.className = 'mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Error generating string art:', error);
-                clearInterval(progressInterval);
-                showError(`Failed to generate string art: ${error.message}`);
-                
-                // Hide loading state
                 loading.classList.add('hidden');
-                generateBtn.disabled = false;
-                generateBtn.className = 'mt-8 w-full py-3 px-6 rounded-full text-lg font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transform hover:scale-105 transition-all duration-300 cursor-pointer';
+
+                stringArtData = result;
+
+                // Draw canvas
+                drawStringArt(stringArtData);
+
+                // Update UI with stats
+                finalNails.textContent = stringArtData.nails.length;
+                finalLines.textContent = stringArtData.paths.length;
+                const generationSeconds = Math.round((Date.now() - startTime) / 1000);
+                generationTime.textContent = `${generationSeconds}s`;
+
+                // Check if resultMessage exists before setting textContent
+                if (resultMessage) {
+                    resultMessage.textContent = result.message || "String art generated successfully!";
+                }
+
+                // Show result section
+                resultSection.classList.remove('hidden');
+                
+                // Move preview to left
+                document.getElementById('preview-output-wrapper').classList.remove('center-preview');
+
+            } catch (error) {
+                clearInterval(progressInterval);
+                loading.classList.add('hidden');
+                console.error(error);
+                showError(error.message || 'An error occurred while generating string art.');
             }
         }
-        
-        // Add event listener to generate button
+
+        // Attach event to button
         generateBtn.addEventListener('click', generateStringArt);
+    </script>
+    <!-- Download canvas as PNG -->
+    <script>
+        // Download canvas as PNG
+        document.getElementById('download-btn').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'string_art_output.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
     </script>
 </body>
 </html>
