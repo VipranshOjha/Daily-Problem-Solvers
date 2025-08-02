@@ -1,0 +1,5 @@
+{
+  "timeout_seconds": 10,
+  "warning_enabled": true,
+  "warning_seconds": 5
+}
