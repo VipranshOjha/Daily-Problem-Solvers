@@ -54,13 +54,6 @@ If you leave, it gives you a few seconds—then **locks the screen** for you. Ma
 Because *I* kept leaving screens unlocked and came back to embarrassing Slack messages or, worse, open docs.  
 No more. Works quietly, so I don’t have to remember.
 
-## ☑️ TODO & Ideas
-
-- Multimonitor/fancy camera support
-- Option to play a sound right before lockdown
-- Customizable actions (dim, pause music, etc)
-- (Maybe): Face RECOGNITION instead of just detection. Let’s see.
-
 ## ❓ Feedback / Want tweaks?
 
 Open an issue, PR or just yell at me in the repo. Happy to see if anyone else wants to make this better.
