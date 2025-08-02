@@ -5,6 +5,7 @@ This repository is a collection of various projects I've developed to address an
 ## Projects Included:
 
 * [Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker): A utility for automating mouse clicks.
+* [Auto Screen Lock]: Automatically locks your screen when you leave your seat—using your webcam for face detection, so your files and privacy are always protected effortlessly.
 * [Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution): A simple yet powerful tool that sharpens and enhances low-resolution images using the Real-ESRGAN deep learning model.
 * [Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor): An implementation of the Huffman coding algorithm for image compression.
 * [Periodic Table](https://github.com/VipranshOjha/Periodic-Table): An interactive or interactive representation of the periodic table elements.
