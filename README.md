@@ -1,14 +1,17 @@
 # Daily-Problem-Solvers
 
-This repository is a collection of various projects I've developed to address and solve common day-to-day or real-life problems i faced. Each subfolder contains a distinct project.
+This repository is a collection of various projects I've developed to address and solve common day-to-day or real-life problems I faced. Each subfolder contains a distinct project.
 
 ## Projects Included:
 
 * [Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker): A utility for automating mouse clicks.
-* [Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock): Automatically locks your screen when you leave your seat—using your webcam for face detection, so your files and privacy are always protected effortlessly.
+* [Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock): Automatically locks your screen when you leave your seat—using your webcam for face recognition, so your files and privacy are always protected effortlessly.
 * [Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution): A simple yet powerful tool that sharpens and enhances low-resolution images using the Real-ESRGAN deep learning model.
 * [Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor): An implementation of the Huffman coding algorithm for image compression.
-* [Periodic Table](https://github.com/VipranshOjha/Periodic-Table): An interactive or interactive representation of the periodic table elements.
+* [Periodic Table](https://github.com/VipranshOjha/Periodic-Table): An interactive representation of the periodic table elements.
 * [String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator): Turn portrait images into beautiful nail-and-string art patterns using image preprocessing, grayscale enhancement, and optimized geometric line tracing.
-  
+* [C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.): A tool that transforms a single keyboard into multiple virtual controllers, enabling easy multiplayer gameplay without needing extra hardware.
+
+---
+
 Feel free to explore each project's individual subdirectory for more details and code.

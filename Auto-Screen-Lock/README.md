@@ -1,6 +1,7 @@
 # 👀 Auto Screen Lock
 
 Do you **forget to lock your computer** when you walk away for a snack, a call, or just because life happens?
+
 **Auto Screen Lock** makes sure your files, chats, and secrets stay safe—by locking your screen automatically when you’re not around.
 
 ---
