@@ -9,8 +9,8 @@ As developers, we encounter countless small problems that could be solved with a
 ## Projects
 
 **AI & Text Processing**
-* **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → Rewrite robotic AI outputs into natural, human-like text
-* **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
+* **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer-Rewrite robotic AI outputs into natural, human-like text
+* **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → AI Prompt Generator-Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
 
 **Gaming & Automation**  
 * **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn a single keyboard into multiple virtual controllers for multiplayer gaming
