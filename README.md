@@ -1,4 +1,4 @@
-# Daily-Problem-Solvers
+# 🔧 Daily-Problem-Solvers
 
 A curated collection of practical projects I've developed to address real-world problems and daily frustrations. Each project represents a unique solution to common challenges we face in our digital lives.
 
@@ -6,7 +6,7 @@ A curated collection of practical projects I've developed to address real-world 
 
 As developers, we encounter countless small problems that could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
 
-## Projects
+## 🛠️ Projects
 
 **AI & Text Processing**
 * **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer-Rewrite robotic AI outputs into natural, human-like text
