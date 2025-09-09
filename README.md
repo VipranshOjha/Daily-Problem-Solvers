@@ -13,7 +13,7 @@ As developers, we encounter countless small problems that could be solved with a
 * **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → AI Prompt Generator-Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
 
 **Gaming & Automation**  
-* **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn a single keyboard into multiple virtual controllers for multiplayer gaming
+* **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn your smartphones into virtual controllers for multiplayer gaming
 * **[Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker)** → Smart mouse automation utility
 * **[Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock)** → Webcam-based face recognition screen locking
 
