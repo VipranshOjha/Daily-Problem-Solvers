@@ -1,15 +1,30 @@
 # Daily-Problem-Solvers
-This repository is a collection of various projects I've developed to address and solve common day-to-day or real-life problems I faced. Each subfolder contains a distinct project.
 
-## Projects Included:
-* [TextLoom](https://github.com/VipranshOjha/TextLoom): A comprehensive text processing toolkit that weaves together multiple natural language processing capabilities for efficient text analysis and manipulation.
-* [C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.): A tool that transforms a single keyboard into multiple virtual controllers, enabling easy multiplayer gameplay without needing extra hardware.
-* [String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator): Turn portrait images into beautiful nail-and-string art patterns using image preprocessing, grayscale enhancement, and optimized geometric line tracing.
-* [Periodic Table](https://github.com/VipranshOjha/Periodic-Table): An interactive representation of the periodic table elements.
-* [Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker): A utility for automating mouse clicks.
-* [Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock): Automatically locks your screen when you leave your seat—using your webcam for face recognition, so your files and privacy are always protected effortlessly.
-* [Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution): A simple yet powerful tool that sharpens and enhances low-resolution images using the Real-ESRGAN deep learning model.
-* [Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor): An implementation of the Huffman coding algorithm for image compression.
+A curated collection of practical projects I've developed to address real-world problems and daily frustrations. Each project represents a unique solution to common challenges we face in our digital lives.
+
+## 🎯 **Why This Repository?**
+
+As developers, we encounter countless small problems that could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
+
+## Projects
+
+**AI & Text Processing**
+* **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → Comprehensive NLP toolkit for text analysis and manipulation
+* **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
+
+**Gaming & Automation**  
+* **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn a single keyboard into multiple virtual controllers for multiplayer gaming
+* **[Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker)** → Smart mouse automation utility
+* **[Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock)** → Webcam-based face recognition screen locking
+
+**Image & Visual Processing**
+* **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator)** → Convert portraits into nail-and-string art patterns
+* **[Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor)** → Efficient image compression using Huffman coding
+* **[Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution)** → Enhance low-res images using Real-ESRGAN deep learning
+
+**Educational & Reference**
+* **[Periodic Table](https://github.com/VipranshOjha/Periodic-Table)** → Interactive periodic table with detailed element information
 
 ---
-Feel free to explore each project's individual subdirectory for more details and code.
+
+Feel free to explore each project for detailed documentation and setup instructions.
