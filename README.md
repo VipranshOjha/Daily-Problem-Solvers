@@ -25,7 +25,8 @@ As developers, we encounter countless small problems that could be solved with a
 **Educational & Reference**
 * **[Periodic Table](https://github.com/VipranshOjha/Periodic-Table)** → Interactive periodic table with detailed element information
 * **[Spellbound](https://github.com/VipranshOjha/Spellbound)**  → A magical, interactive exploration of word phenomena with 3D flip cards and linguistic mini-games
-  
+* **[NumberLore](https://github.com/VipranshOjha/NumberLore)** → Explore the hidden properties, patterns, and personalities of numbers through interactive 3D flip cards
+
 ---
 
 Feel free to explore each project for detailed documentation and setup instructions.
