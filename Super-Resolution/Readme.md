@@ -4,6 +4,12 @@ A simple yet powerful tool that sharpens and enhances low-resolution images usin
 
 ---
 
+## 💡 Why I Built This
+
+I created this as a daily problem-solving tool — we often deal with images that are blurry, low-resolution, or need enhancement before use. This tool helps improve image quality in seconds, and is especially useful for professionals, students, and content creators.
+
+---
+
 ## 📌 Overview
 
 Have a blurry or pixelated image you want to improve?
@@ -59,8 +65,3 @@ Built using **Real-ESRGAN**, a state-of-the-art super-resolution model for real-
 * Matplotlib
 
 ---
-
-## 💡 Why I Built This
-
-I created this as a daily problem-solving tool — we often deal with images that are blurry, low-resolution, or need enhancement before use. This tool helps improve image quality in seconds, and is especially useful for professionals, students, and content creators.
-
