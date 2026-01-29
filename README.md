@@ -9,13 +9,16 @@ As developers, we encounter countless small problems that could be solved with a
 ## 🛠️ Projects
 
 **AI & Text Processing**
-* **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer-Rewrite robotic AI outputs into natural, human-like text
-* **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → AI Prompt Generator-Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
+* **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer – Rewrite robotic AI outputs into natural, human-like text
+* **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → AI Prompt Generator – Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
 
 **Gaming & Automation**  
-* **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn your smartphones into virtual controllers for multiplayer pc games
+* **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn your smartphones into virtual controllers for multiplayer PC games
 * **[Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker)** → Smart mouse automation utility
 * **[Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock)** → Webcam-based face recognition screen locking
+
+**Developer Utilities & Productivity**
+* **[Typing Speed Tracker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Typing-Speed-Tracker)** → Desktop typing speed test with WPM, accuracy tracking, strict mode, and live performance graph
 
 **Image & Visual Processing**
 * **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator)** → Convert portraits into nail-and-string art patterns
@@ -24,7 +27,7 @@ As developers, we encounter countless small problems that could be solved with a
 
 **Educational & Reference**
 * **[Periodic Table](https://github.com/VipranshOjha/Periodic-Table)** → Interactive periodic table with detailed element information
-* **[Spellbound](https://github.com/VipranshOjha/Spellbound)**  → A magical, interactive exploration of word phenomena with 3D flip cards and linguistic mini-games
+* **[Spellbound](https://github.com/VipranshOjha/Spellbound)** → A magical, interactive exploration of word phenomena with 3D flip cards and linguistic mini-games
 * **[NumberLore](https://github.com/VipranshOjha/NumberLore)** → Explore the hidden properties, patterns, and personalities of numbers through interactive 3D flip cards
 
 ---
