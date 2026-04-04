@@ -22,7 +22,7 @@ As developers, we encounter countless small problems tWohat could be solved with
 * **[Word Counter](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Word-Counter)** → Offline desktop text analytics tool with real-time word, character, sentence, and paragraph tracking
 
 **Image & Visual Processing**
-* **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator)** → Convert portraits into nail-and-string art patterns
+* **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/Web-Applications/tree/main/String-Art-Generator)** → Convert portraits into nail-and-string art patterns
 * **[Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor)** → Efficient image compression using Huffman coding
 * **[Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution)** → Enhance low-res images using Real-ESRGAN deep learning
 
