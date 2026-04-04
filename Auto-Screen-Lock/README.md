@@ -15,11 +15,17 @@ If you leave, it gives you a short grace period, then **locks your screen** usin
 ## 🪄 Features
 
 ✅ **Face Recognition Based:** Uses your stored reference photo to verify it’s *you*.
+
 ✅ **Cross-Platform Support:** Works on **Windows, macOS, and Linux** with OS-level lock commands.
+
 ✅ **Custom Timeout:** Choose how long the system waits before locking (default: `30s`).
+
 ✅ **Warning Mode:** Enable an optional last warning before the lock triggers.
+
 ✅ **GUI Controls:** Start/stop monitoring, adjust settings, run test camera/lock functions.
+
 ✅ **Activity Log:** Built-in log window tracks events (face detected, lock triggered, etc.).
+
 ✅ **Persistent Config:** Settings are saved to `screen_lock_config.json` and restored automatically.
 
 ---
