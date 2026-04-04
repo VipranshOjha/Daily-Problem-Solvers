@@ -4,7 +4,7 @@ A curated collection of practical projects I've developed to address real-world 
 
 ## 🎯 **Why This Repository?**
 
-As developers, we encounter countless small problems that could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
+As developers, we encounter countless small problems tWohat could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
 
 ## 🛠️ Projects
 
@@ -19,6 +19,7 @@ As developers, we encounter countless small problems that could be solved with a
 
 **Developer Utilities & Productivity**
 * **[Typing Speed Tracker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Typing-Speed-Tracker)** → Desktop typing speed test with WPM, accuracy tracking, strict mode, and live performance graph
+* **[Word Counter](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Word-Counter)** → Offline desktop text analytics tool with real-time word, character, sentence, and paragraph tracking
 
 **Image & Visual Processing**
 * **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator)** → Convert portraits into nail-and-string art patterns
