@@ -9,24 +9,30 @@ As developers, we encounter countless small problems tWohat could be solved with
 ## 🛠️ Projects
 
 **AI & Text Processing**
+
 * **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer – Rewrite robotic AI outputs into natural, human-like text
 * **[PromptCraft](https://github.com/VipranshOjha/PromptCraft)** → AI Prompt Generator – Transform raw ideas into expert-level AI prompts for ChatGPT, Gemini, Claude
 
-**Gaming & Automation**  
+**Gaming & Automation**
+
 * **[C.L.A.W.](https://github.com/VipranshOjha/C.L.A.W.)** → Turn your smartphones into virtual controllers for multiplayer PC games
 * **[Auto-Clicker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Clicker)** → Smart mouse automation utility
 * **[Auto Screen Lock](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Screen-Lock)** → Webcam-based face recognition screen locking
+* **[Auto Workspace Shield](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Auto-Workspace-Shield)** → Detect shoulder-surfers and automatically hide sensitive content by minimizing windows, switching applications, or changing virtual desktops
 
 **Developer Utilities & Productivity**
+
 * **[Typing Speed Tracker](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Typing-Speed-Tracker)** → Desktop typing speed test with WPM, accuracy tracking, strict mode, and live performance graph
 * **[Word Counter](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Word-Counter)** → Offline desktop text analytics tool with real-time word, character, sentence, and paragraph tracking
 
 **Image & Visual Processing**
+
 * **[String-Art-Portrait-Generator](https://github.com/VipranshOjha/String-Art-Portrait-Generator)** → Convert portraits into nail-and-string art patterns
 * **[Huffman Image Compressor](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Huffman-Image-Compressor)** → Efficient image compression using Huffman coding
 * **[Super Resolution](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Super-Resolution)** → Enhance low-res images using Real-ESRGAN deep learning
 
 **Educational & Reference**
+
 * **[Periodic Table](https://github.com/VipranshOjha/Periodic-Table)** → Interactive periodic table with detailed element information
 * **[Spellbound](https://github.com/VipranshOjha/Spellbound)** → A magical, interactive exploration of word phenomena with 3D flip cards and linguistic mini-games
 * **[NumberLore](https://github.com/VipranshOjha/NumberLore)** → Explore the hidden properties, patterns, and personalities of numbers through interactive 3D flip cards
