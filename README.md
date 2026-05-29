@@ -4,7 +4,7 @@ A curated collection of practical projects I've developed to address real-world 
 
 ## 🎯 **Why This Repository?**
 
-As developers, we encounter countless small problems tWohat could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
+As developers, we encounter countless small problems that could be solved with a few lines of code. Instead of accepting these inconveniences, I built tools to eliminate them.
 
 ## 🛠️ Projects
 
