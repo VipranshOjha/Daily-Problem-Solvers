@@ -8,6 +8,10 @@ As developers, we encounter countless small problems that could be solved with a
 
 ## 🛠️ Projects
 
+**Browser & Capture**
+
+* **[Full-Page-Screenshot](https://github.com/VipranshOjha/Daily-Problem-Solvers/tree/main/Full-Page-Screenshot)** → Capture full-page screenshots of all open Chrome tabs and export them as PDF, PNG, or JPEG — no extensions, no accounts, no reformatting
+
 **AI & Text Processing**
 
 * **[TextLoom](https://github.com/VipranshOjha/TextLoom)** → AI Text Humanizer – Rewrite robotic AI outputs into natural, human-like text
@@ -39,4 +43,4 @@ As developers, we encounter countless small problems that could be solved with a
 
 ---
 
-Feel free to explore each project for detailed documentation and setup instructions.
+Each project folder contains its own README with setup instructions, usage details, and known limitations.
